@@ -30,10 +30,10 @@ function friendSelect() {
 
 function loggedInUser(userId) {
     if (Meteor.users.findOne({
-        _id: userId
+        _id: this.userId
     })) {
         return Meteor.users.findOne({
-            _id: userId
+            _id: this.userId
         }).emails[0].address;
     } else {
         return '';
@@ -52,6 +52,7 @@ if (Meteor.isClient) {
         });
     }
     
+    // i need to find a way to clear the existing html from the messages template
     Template.messages.clear = function () {
     	return 1
     }
