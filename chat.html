@@ -3,29 +3,34 @@
 </head>
 
 <body>	
-{{loginButtons align="left"}}<br>
+{{loginButtons align="left"}}
 {{> friends}}
-{{> messages}}<br>
-{{> entryfield}}<br>
+{{> messages}}
+{{> entryfield}}
 </body>
 
 <template name="entryfield">
-    <input type="text" id="message" placeholder="Your Message" />
+    <p>
+    	<input type="text" id="message" placeholder="Your Message" />
+    </p>
 </template>
 
 <template name="messages">
     <p>
         {{#each messages}}
-            <strong>{{name}}</strong>- {{message}} <br>
+            <div>
+            	<strong>{{name}}</strong>- {{message}}
+            </div>
         {{/each}}
     </p>
 </template>
 
 <template name="friends">
-    <p> <label for="friendSelect">Select a friend to chat with:</label>
-        {{#each friends}}
+    <p> 
+    	<label for="friendSelect">Select a friend to chat with:</label>
+    	{{#each friends}}
             <div>
-            	<input type="radio" name="friendSelect" value={{name}} onClick="friendSelect()"><strong>{{name}}</strong></input>
+            	<input type="radio" name="friendSelect" value={{userAccount}} onClick="friendSelect()"><strong>{{userAccount}}</strong></input>
         	</div>
         {{/each}}
     </p>

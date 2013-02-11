@@ -1,82 +1,45 @@
-Messages = new Meteor.Collection('messages', function () {
-    return Messages.find({
-        $or: [{
-            accessUser: loggedInUser(this.userId)
-        }, {
-            ownerUser: loggedInUser(this.userId)
-        }],
-        $or: [{
-            accessUser: friendSelect()
-        }, {
-            ownerUser: friendSelect()
-        }]
-    })
-});
-
+Messages = new Meteor.Collection('messages');
 Friends = new Meteor.Collection('friends');
 
 function friendSelect() {
     //console.log("click detected");
     var radios = document.getElementsByName('friendSelect');
-    var friendSelected = '';
-
+        
     for (var i = 0; i < radios.length; i++) {
         if (radios[i].checked) {
-            friendSelected = radios[i].value;
+            Session.set("friend", radios[i].value);
         }
-    }
-    return friendSelected;    
+    }   
 };
 
-function loggedInUser(userId) {
+
+//Meteor.startup(function() {
+//    $('[name="friendSelect"]').on('change', function(event) {
+//        Session.set('friend', $(this).val());
+//    });
+//});
+
+function loggedInUser() {
     if (Meteor.users.findOne({
         _id: this.userId
     })) {
         return Meteor.users.findOne({
             _id: this.userId
         }).emails[0].address;
-    } else {
-        return '';
-    }
+    } 
 };
+
 
 if (Meteor.isClient) {
 
-    var accessUserIds = {};
-
-    Template.messages.messages = function () {
-        return Messages.find({}, {
-            sort: {
-                time: 1
-            }
-        });
-    }
-    
-    // i need to find a way to clear the existing html from the messages template
-    Template.messages.clear = function () {
-    	return 1
-    }
+    Template.messages.messages = function () { 
+	    return Messages.find({$and: [{accessUsers:loggedInUser()}
+	    						    ,{accessUsers:Session.get("friend")}]}
+	    					 , {sort: {time: 1}});
+	    };
 
     Template.friends.friends = function () {
-
-        var friendsArr = [];
-        var friendNames = [];
-
-        friendsArr = Friends.findOne({
-            userId: this.userId
-        }, {
-            sort: {
-                time: 1
-            }
-        }).friendAccounts;
-
-        for (i = 0; i < friendsArr.length; i++) {
-            friendNames.push({
-                name: friendsArr[i].userName
-            })
-        }
-
-        return friendNames;
+	        return Friends.find({friendAccounts: loggedInUser(userId)});
     }
 
     Template.entryfield.events = {
@@ -86,11 +49,11 @@ if (Meteor.isClient) {
                 var name = document.getElementById('name');
                 var message = document.getElementById('message');
 
-                if (Meteor.user && message.value != '' && friendSelect() != '') {
+                if (Meteor.user() && message.value != '' && friendSelect() != '') {
                     Messages.insert({
-                        ownerUser: loggedInUser(this.userId),
-                        accessUser: friendSelect(),
-                        name: loggedInUser(this.userId),
+                        ownerUser: loggedInUser(),
+                        accessUsers: [Session.get("friend"),loggedInUser()],
+                        name: loggedInUser(),
                         message: message.value,
                         time: Date.now()
                     });
