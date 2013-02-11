@@ -4,7 +4,7 @@ Friends = new Meteor.Collection('friends');
 function friendSelect() {
     //console.log("click detected");
     var radios = document.getElementsByName('friendSelect');
-        
+       
     for (var i = 0; i < radios.length; i++) {
         if (radios[i].checked) {
             Session.set("friend", radios[i].value);
@@ -12,12 +12,6 @@ function friendSelect() {
     }   
 };
 
-
-//Meteor.startup(function() {
-//    $('[name="friendSelect"]').on('change', function(event) {
-//        Session.set('friend', $(this).val());
-//    });
-//});
 
 function loggedInUser() {
     if (Meteor.users.findOne({
@@ -29,8 +23,14 @@ function loggedInUser() {
     } 
 };
 
-
 if (Meteor.isClient) {
+	
+//	Meteor.startup(function() {
+//        $('[name="friendSelect"]').on('change', function(event) {
+//            console.log($(this).val());
+//            Session.set('friend', $(this).val());
+//        });
+//    });
 
     Template.messages.messages = function () { 
 	    return Messages.find({$and: [{accessUsers:loggedInUser()}
