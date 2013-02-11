@@ -2,21 +2,31 @@
   <title>chat</title>
 </head>
 
-<body>
-	
-{{> entryfield}}
-{{> messages}}
-
+<body>	
+{{loginButtons align="left"}}<br>
+{{> friends}}
+{{> messages}}<br>
+{{> entryfield}}<br>
 </body>
 
 <template name="entryfield">
-    <input type="text" id="name" placeholder="Name" /> <input type="text" id="message" placeholder="Your Message" />
+    <input type="text" id="message" placeholder="Your Message" />
 </template>
 
 <template name="messages">
     <p>
         {{#each messages}}
-            <strong>{{name}}</strong>- {{message}}
+            <strong>{{name}}</strong>- {{message}} <br>
+        {{/each}}
+    </p>
+</template>
+
+<template name="friends">
+    <p> <label for="friendSelect">Select a friend to chat with:</label>
+        {{#each friends}}
+            <div>
+            	<input type="radio" name="friendSelect" value={{name}} onClick="friendSelect()"><strong>{{name}}</strong></input>
+        	</div>
         {{/each}}
     </p>
 </template>
