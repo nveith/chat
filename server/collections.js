@@ -11,7 +11,7 @@ userIds = []
 
 for(i=0;i<meteorUsers.length;i++){
 	userIds.push(meteorUsers[i]._id)
-}
+	}
 
 for(i=0;i<userIds.length;i++){
 	Friends.insert({

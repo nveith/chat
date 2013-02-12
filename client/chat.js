@@ -1,7 +1,10 @@
 if (Meteor.isClient) {
 	
-	Meteor.startup(function() {
-	Session.set("friendId", false);
+	Meteor.startup(function() {	    
+        $('[name="friendSelect"]').on('change', function(event) {
+            console.log($(this).val());
+            Session.set('friend', $(this).val());
+	    });
 	});
 	
 	Meteor.autosubscribe( function() {
@@ -12,18 +15,6 @@ if (Meteor.isClient) {
 	
 	Messages = new Meteor.Collection('messages');
 	Friends = new Meteor.Collection('friends');
-	
-	function friendSelect() {
-	    //console.log("click detected");
-	    var radios = document.getElementsByName('friendSelect');
-	
-	    for (var i = 0; i < radios.length; i++) {
-	        if (radios[i].checked) {
-	            Session.set("friendId", radios[i].value);
-	            return radios[i].value;
-	        }
-	    }
-	};
 
     Template.messages.messages = function () {
         return Messages.find({});

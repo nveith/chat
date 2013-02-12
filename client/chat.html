@@ -21,9 +21,14 @@
 
 <template name="friends">
     <p>
-        <label for="friendSelect">Select a friend to chat with:</label>{{#each friends}}
-        <div>
-            <input type="radio" name="friendSelect" value={{userId}} onClick="friendSelect()"><strong>{{userAccount}}</strong>
-            </input>
-        </div>{{/each}}</p>
+        <form>
+	        <label for="friendSelect">Select a friend to chat with:</label>
+	        {{#each friends}}
+		        <div>
+		            <input type="radio" name="friendSelect" value={{userId}}><strong>{{userAccount}}</strong>
+		            </input>
+		        </div>
+	        {{/each}}
+        </form>
+    </p>
 </template>
