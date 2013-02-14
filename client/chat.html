@@ -2,11 +2,17 @@
     <title>chat</title>
 </head>
 <body>
-	{{loginButtons align="left"}} 
-	{{> addContact}}
-	{{> friends}} 
-	{{> messages}} 
-	{{> entryfield}}
+	<div id="wrap">
+	<div id="header">{{ loginButtons align="left"}} </div>
+	<div id="nav">{{> friends}} </div>
+	<div id="main">	{{> messages}} </div>
+	<div id="sidebar">
+		{{> addContact}}
+		{{> sidebar}}
+	</div>
+	<div id="footer">{{> entryfield}}</div>
+	</div>
+	
 </body>
 
 <template name="entryfield">
@@ -34,15 +40,17 @@
 
 <template name="friends">
     <p>
-        <form>
-	        <label for="friend">Open an existing conversation:</label>
+        <form>        	
+			<ul>
 	        {{#each friends}}
-	        	<div>
-		        <span class="unFriend" value={{userId}}><strong>X</strong></span>
-		        <span class="friendSelect" value={{userId}}><strong>{{userAccount}}</strong></span>
-		        </div>
+	        <span>	
+		    	   <span class="friendSelect" value={{userId}}><strong>{{userAccount}}</strong><span class="unFriend" value={{userId}}><strong> {X}</strong></span></span>
+		    </span>
 	        {{/each}}
-	        </select>
-        </form>
+        </ul>
     </p>
+</template>
+
+<template name='sidebar' >
+	<em>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</em>
 </template>
