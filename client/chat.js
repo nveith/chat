@@ -1,14 +1,7 @@
 if (Meteor.isClient) {
 	
-	Meteor.startup(function() {	    
-        $('[name="friendSelect"]').on('change', function(event) {
-            console.log($(this).val());
-            Session.set('friend', $(this).val());
-	    });
-	});
-	
 	Meteor.autosubscribe( function() {
-	Meteor.subscribe('clientMessages',Session.get('friendId'));
+	Meteor.subscribe('clientMessages');
 	});
 			
 	Meteor.subscribe('clientFriends');
@@ -17,12 +10,24 @@ if (Meteor.isClient) {
 	Friends = new Meteor.Collection('friends');
 
     Template.messages.messages = function () {
-        return Messages.find({});
+        return Messages.find({accessUsers: Session.get('friendId')});
     };
 
     Template.friends.friends = function () {
         return Friends.find({});
     }
+    
+	Template.friends.rendered = function() {
+		consoleLog = function() {
+			console.log("logging to console");
+		};
+		$('.friendSelect').on('click', function(event) {
+					Session.set('friendId', $(this).attr("value"));
+				});
+		$('.unFriend').on('click', function(event) {
+					console.log("unFriend incoming");
+				});
+	};
 
     Template.entryfield.events = {
         "keydown #message": function (event) {

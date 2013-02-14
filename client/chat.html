@@ -3,6 +3,7 @@
 </head>
 <body>
 	{{loginButtons align="left"}} 
+	{{> addContact}}
 	{{> friends}} 
 	{{> messages}} 
 	{{> entryfield}}
@@ -15,20 +16,33 @@
 </template>
 
 <template name="messages">
-    <p>{{#each messages}}
-        <div>	<strong>{{name}}</strong>- {{message}}</div>{{/each}}</p>
+    <p>
+    	{{#each messages}}
+	        <div>	
+	        	<strong>{{name}}</strong>- {{message}}
+	        </div>
+        {{/each}}
+    </p>
+</template>
+
+<template name="addContact">
+	<p>
+		<label for "addContact">Start a conversation:</label>
+		<input type="text"/>
+	</p>
 </template>
 
 <template name="friends">
     <p>
         <form>
-	        <label for="friendSelect">Select a friend to chat with:</label>
+	        <label for="friend">Open an existing conversation:</label>
 	        {{#each friends}}
-		        <div>
-		            <input type="radio" name="friendSelect" value={{userId}}><strong>{{userAccount}}</strong>
-		            </input>
+	        	<div>
+		        <span class="unFriend" value={{userId}}><strong>X</strong></span>
+		        <span class="friendSelect" value={{userId}}><strong>{{userAccount}}</strong></span>
 		        </div>
 	        {{/each}}
+	        </select>
         </form>
     </p>
 </template>

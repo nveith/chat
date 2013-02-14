@@ -6,7 +6,7 @@ Meteor.publish("clientFriends", function () {
 	})
 	
 Meteor.publish("clientMessages", function (friendId) {
-	return Messages.find({$and: [{accessUsers: this.userId},{accessUsers: friendId}]},{sort: {time: 1}});
+	return Messages.find({accessUsers: this.userId},{sort: {time: 1}});
 	})
 	
 Meteor.methods({
